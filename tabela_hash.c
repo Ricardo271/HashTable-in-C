@@ -5,7 +5,8 @@
 #include <time.h>
 
 #define M 79 // 31 - 79 - 151
-#define INPUT_FILE "CEM"  // "CEM" - "MIL" - "DEZ_MIL"
+#define INPUT 100 // 100 - 1000 - 10000
+#define SEARCHES 50
 
 #define MAX_STRING 256  // Máximo de caracteres na string
 
@@ -128,17 +129,9 @@ int main() {
     init();  // Inicia a Tabela Hash
 
     // Seleciona o arquivo de entrada das Strings
-    FILE* fp;
-    if (INPUT_FILE == "CEM") {
-        fp = fopen("./strings_cem.txt", "r");
-    } else if (INPUT_FILE == "MIL") {
-        fp = fopen("./strings_mil.txt", "r");
-    } else if (INPUT_FILE == "DEZ_MIL") {
-        fp = fopen("./strings_dez_mil.txt", "r");
-    } else {
-        printf("Erro na selecao do arquivo de entrada\n");
-    }
-
+    char file_name[20];
+    sprintf(file_name, "./strings_%d.txt", INPUT);
+    FILE* fp = fopen(file_name, "r");
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo\n");
         exit(2);
@@ -152,21 +145,30 @@ int main() {
         strcpy(input.str, str);
         insert(input);
     }
-
-    fclose(fp);
+    rewind(fp);
 
     print_table();
 
-    // CEM
-    char* searches[] = {"abades", "abafes", "abafadicas", "abafe", "abafavamos", "abafaveis", "abaixamo", "abaixaram", "nao encontrar", "123abc"};
-    // MIL
-    //char* searches[] = {"abacate", "abates", "abafassem", "abalizaremo", "abeirarieis", "abastecendo", "abeirara", "abdicamo", "nao encontrar", "321abc"};
-    // DEZ_MIL
-    //char* searches[] = {"abanado", "acossaremos", "abadias", "adiantemo", "adorna", "acalentes", "abafava", "afluimos", "nao encontrar", "321abc"};
+    // Seleciona SEARCHES Strings aleatórias do arquivo e as coloca no array searches
+    char* searches[SEARCHES];
+    int k = 0;
+    for (int i = 0; i < SEARCHES; i++) {
+        int rand_num = (rand() % INPUT);
+        char str[MAX_STRING];
+        for (int j = 0; j <= rand_num; j++) {
+            fgets(str, MAX_STRING,fp);
+        }
+        rewind(fp);
+        remove_line_break(str);
+        searches[k] = malloc(MAX_STRING * sizeof(char));
+        strcpy(searches[k], str);
+        k++;
+    }
+    fclose(fp);
 
-    int searches_c = sizeof(searches) / sizeof(char*);
+    // Realiza buscas por todas as Strings do array searches
     long time_before_searches = clock();
-    for (int i = 0; i < searches_c; i++) {
+    for (int i = 0; i < SEARCHES; i++) {
         Data* aux = search(searches[i]);
         if (aux == NULL) {
             printf("Nao encontrado.\n");
