@@ -4,9 +4,9 @@
 #include <string.h>
 #include <time.h>
 
-#define M 79 // 31 - 79 - 151
-#define INPUT 100 // 100 - 1000 - 10000
-#define SEARCHES 50
+#define M 79         // 31 - 79 - 151
+#define INPUT 100    // 100 - 1000 - 10000
+#define SEARCHES 50  // Número de buscas para ser realizado
 
 #define MAX_STRING 256  // Máximo de caracteres na string
 
@@ -156,7 +156,7 @@ int main() {
         int rand_num = (rand() % INPUT);
         char str[MAX_STRING];
         for (int j = 0; j <= rand_num; j++) {
-            fgets(str, MAX_STRING,fp);
+            fgets(str, MAX_STRING, fp);
         }
         rewind(fp);
         remove_line_break(str);
