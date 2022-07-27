@@ -4,8 +4,8 @@
 #include <string.h>
 #include <time.h>
 
-#define M 151                  // 31 - 79 - 151
-#define INPUT_FILE "DEZ_MIL"  // "CEM" - "MIL" - "DEZ_MIL"
+#define M 79 // 31 - 79 - 151
+#define INPUT_FILE "CEM"  // "CEM" - "MIL" - "DEZ_MIL"
 
 #define MAX_STRING 256  // Máximo de caracteres na string
 
@@ -157,7 +157,13 @@ int main() {
 
     print_table();
 
-    char* searches[] = {"acodem", "acelerasses", "aconchegados", "acatavamos", "abalizaste", "aburguesaramos", "afluimo", "adormecias", "nao encontrar", "123abc"};
+    // CEM
+    char* searches[] = {"abades", "abafes", "abafadicas", "abafe", "abafavamos", "abafaveis", "abaixamo", "abaixaram", "nao encontrar", "123abc"};
+    // MIL
+    //char* searches[] = {"abacate", "abates", "abafassem", "abalizaremo", "abeirarieis", "abastecendo", "abeirara", "abdicamo", "nao encontrar", "321abc"};
+    // DEZ_MIL
+    //char* searches[] = {"abanado", "acossaremos", "abadias", "adiantemo", "adorna", "acalentes", "abafava", "afluimos", "nao encontrar", "321abc"};
+
     int searches_c = sizeof(searches) / sizeof(char*);
     long time_before_searches = clock();
     for (int i = 0; i < searches_c; i++) {
@@ -171,9 +177,11 @@ int main() {
     long time_after_searches = clock();
     long time_elapsed_searches = (time_after_searches - time_before_searches);
 
+    printf("\nTempos de Busca:\n");
     printf("Time Before: %ld\n", time_before_searches);
     printf("Time After: %ld\n", time_after_searches);
     printf("Time Elapsed: %ld\n", time_elapsed_searches);
+    printf("\n");
 
     printf("COLISOES DETECTADAS: %d\n", COLLISON_COUNTER);
 }
